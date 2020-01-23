@@ -1,12 +1,19 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 )
 
 func main() {
 	fmt.Println("Starting execution...")
-	//read in command line params
+
+	inputFileName := flag.String("inFile", "input.csv", "a CSV of API requests to parse")
+	outputFileName := flag.String("outFile", "output.csv", "the name of the file to write the output to")
+	flag.Parse()
+
+	fmt.Println("Reading File ", *inputFileName)
+	fmt.Println("Preparing to write to file ", *outputFileName)
 
 	//Check if the input file exists
 
