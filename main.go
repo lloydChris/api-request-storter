@@ -1,8 +1,11 @@
 package main
 
 import (
+	"encoding/csv"
 	"flag"
 	"fmt"
+	"io"
+	"os"
 	"strings"
 )
 
@@ -17,21 +20,40 @@ func main() {
 	fmt.Println("Preparing to write to file ", *outputFileName)
 
 	//Check if the input file exists
-	//inReader, err := os.Open(*inputFileName)
+	fileReader, err := os.Open(*inputFileName)
+	if err != nil {
+		panic(err)
+	}
 
-	// if err != nil {
-	// 	panic(err)
-	// }
+	//Read one line at a time
+	csvReader := csv.NewReader(fileReader)
+	csvReader.LazyQuotes = true
+	isFirstRow := true
+	for {
+		record, err := csvReader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
 
-	//Read one line
+		//First row is just the headers, we will skip it
+		if isFirstRow {
+			isFirstRow = false
+			continue
+		}
 
-	//Parse out just the Method and path (case insensitive)
+		cleanURL := ParseURL(record[0])
+		fmt.Println(cleanURL)
+	}
 
 	//store in Key-value store with value 1 or increment existing occurrence
 
 }
 
 //ParseURL parses a thing
+//Parse out just the Method and path (case insensitive)
 func ParseURL(url string) string {
 	parts := strings.SplitAfter(url, "?")
 	urlSansQuestionMark := strings.TrimSuffix(parts[0], "?")
