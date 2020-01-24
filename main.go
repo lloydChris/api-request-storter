@@ -49,12 +49,9 @@ func main() {
 
 		cleanURL := ParseURL(record[0])
 		recordCount, err := strconv.ParseInt(record[1], 10, 64)
-
 		if err != nil {
 			panic(err)
 		}
-
-		//store in Key-value store with value 1 or increment existing occurrence
 		results[cleanURL] += recordCount
 	}
 
