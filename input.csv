@@ -1,0 +1,7 @@
+﻿"request.keyword: Descending",Count
+"POST /Brands_Download.ashx?output=json HTTP/1.1",26920
+"POST /v2/Get_Prize_Draw.ashx?output=json HTTP/1.1",5143
+"POST /v2/Get_Prize_Draw.ashx?output=jsdon HTTP/1.1",5143
+"GET /v2/Get_Photo.ashx?key=IHUYuuqwfGo%3D&size=profile HTTP/1.1",1492
+"POST /en_US/ads/tracking/?authid=H0r9EyGtvMj91fI2J2kKJw%3D%3D&key=99cd4d17052d76a89797adb1fff59ebe44efb49a7db8efa5a9f97d1b30e841a5 HTTP/1.1",243
+"POST /v2/en_us/prices/report?authId=IQGMl69HAQxv6QqiBcMZ7A%3D%3D&key=345d645fd79e4e52d9402f1fe6e2b9f080f8b22ef53631c7c8004958c5738d77&memberid=Truegas HTTP/1.1",183

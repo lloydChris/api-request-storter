@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -24,6 +25,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	results := make(map[string]int64)
 
 	//Read one line at a time
 	csvReader := csv.NewReader(fileReader)
@@ -45,11 +48,39 @@ func main() {
 		}
 
 		cleanURL := ParseURL(record[0])
-		fmt.Println(cleanURL)
+		recordCount, err := strconv.ParseInt(record[1], 10, 64)
+		if err != nil {
+			panic(err)
+		}
+		results[cleanURL] += recordCount
 	}
 
-	//store in Key-value store with value 1 or increment existing occurrence
+	fmt.Println("Writing Results to ", *outputFileName)
 
+	fileWriter, err := os.Create(*outputFileName)
+	if err != nil {
+		panic(err)
+	}
+
+	defer fileWriter.Close()
+
+	WriteResults(results, fileWriter)
+
+	fmt.Println("Done!")
+}
+
+//WriteResults writes the mapped and re-bucketed urls to a csv
+func WriteResults(results map[string]int64, outFile *os.File) {
+
+	csvWriter := csv.NewWriter(outFile)
+
+	for key, value := range results {
+		err := csvWriter.Write([]string{key, strconv.FormatInt(value, 10)})
+		if err != nil {
+			panic(err)
+		}
+		csvWriter.Flush()
+	}
 }
 
 //ParseURL parses a thing
